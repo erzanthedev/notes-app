@@ -4,14 +4,6 @@ import Editor from "./components/Editor";
 import Split from "react-split";
 import { nanoid } from "nanoid";
 
-/**
- * Challenge: Spend 10-20+ minutes reading through the code
- * and trying to understand how it's currently working. Spend
- * as much time as you need to feel confident that you
- * understand the existing code (although you don't need
- * to fully understand everything to move on)
- */
-
 export default function App() {
   const [notes, setNotes] = React.useState([]);
   const [currentNoteId, setCurrentNoteId] = React.useState(
