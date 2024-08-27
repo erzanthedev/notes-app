@@ -16,10 +16,7 @@ export default function Sidebar({
           onClick={() => setCurrentNoteId(note.id)}
         >
           <h4 className="text-snippet">{notesTitleSummary}</h4>
-          <button
-            className="delete-btn"
-            onClick={(event) => handleClick(event, note.id)}
-          >
+          <button className="delete-btn" onClick={() => handleClick(note.id)}>
             <i className="gg-trash trash-icon"></i>
           </button>
         </div>

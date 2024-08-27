@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "./components/Sidebar";
 import Editor from "./components/Editor";
 import Split from "react-split";
-import { nanoid } from "nanoid";
-import { addDoc, onSnapshot } from "firebase/firestore";
-import { notesCollection } from "./firebase";
+import { addDoc, onSnapshot, doc, deleteDoc } from "firebase/firestore";
+import { notesCollection, database } from "./firebase";
 
 export default function App() {
   const [notes, setNotes] = useState([]);
@@ -52,10 +51,10 @@ export default function App() {
     setNotes([modifiedNote, ...filteredNotes]);
   }
 
-  const deleteNote = (event, noteId) => {
-    event.stopPropagation();
-    setNotes((oldNotes) => oldNotes.filter((note) => note.id !== noteId));
-  };
+  async function deleteNote(noteId) {
+    const docRef = doc(database, "notes", noteId);
+    await deleteDoc(docRef);
+  }
 
   return (
     <main>
