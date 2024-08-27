@@ -9,10 +9,10 @@ export default function App() {
   const [notes, setNotes] = useState([]);
   const [currentNoteId, setCurrentNoteId] = useState("");
 
-  console.log(currentNoteId);
-
   const currentNote =
     notes.find((note) => note.id === currentNoteId) || notes[0];
+
+  const sortedNotes = notes.sort((a, b) => b.updatedAt - a.updatedAt);
 
   // Update LocalStorage only when notes array changes
   useEffect(() => {
@@ -62,7 +62,7 @@ export default function App() {
       {notes.length > 0 ? (
         <Split sizes={[30, 70]} direction="horizontal" className="split">
           <Sidebar
-            notes={notes}
+            notes={sortedNotes}
             currentNote={currentNote}
             setCurrentNoteId={setCurrentNoteId}
             newNote={createNewNote}
