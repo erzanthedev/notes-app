@@ -27,13 +27,19 @@ export default function App() {
   }
 
   function updateNote(text) {
-    setNotes((oldNotes) =>
-      oldNotes.map((oldNote) => {
-        return oldNote.id === currentNoteId
-          ? { ...oldNote, body: text }
-          : oldNote;
-      }),
+    // Find and update notes with new text
+    const updatedNotes = notes.map((note) => {
+      return note.id === currentNoteId ? { ...note, body: text } : note;
+    });
+
+    // Find the modified Notes
+    const modifiedNote = updatedNotes.find((note) => note.id === currentNoteId);
+
+    // Filter out modified notes from updated notes
+    const filteredNotes = updatedNotes.filter(
+      (note) => note.id !== currentNoteId,
     );
+    setNotes([modifiedNote, ...filteredNotes]);
   }
 
   function findCurrentNote() {
