@@ -5,6 +5,7 @@ export default function Sidebar({
   currentNote,
   setCurrentNoteId,
   newNote,
+  handleClick,
 }) {
   const noteElements = notes.map((note) => {
     const notesTitleSummary = note.body.split("\n")[0];
@@ -17,7 +18,7 @@ export default function Sidebar({
           <h4 className="text-snippet">{notesTitleSummary}</h4>
           <button
             className="delete-btn"
-            // Your onClick event handler here
+            onClick={(event) => handleClick(event, note.id)}
           >
             <i className="gg-trash trash-icon"></i>
           </button>
