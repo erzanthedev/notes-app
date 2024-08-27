@@ -12,6 +12,9 @@ export default function App() {
     (notes[0] && notes[0].id) || "",
   );
 
+  const currentNote =
+    notes.find((note) => note.id === currentNoteId) || notes[0];
+
   // Update LocalStorage only when notes array changes
   useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(notes));
@@ -47,27 +50,19 @@ export default function App() {
     setNotes((oldNotes) => oldNotes.filter((note) => note.id !== noteId));
   };
 
-  function findCurrentNote() {
-    return (
-      notes.find((note) => {
-        return note.id === currentNoteId;
-      }) || notes[0]
-    );
-  }
-
   return (
     <main>
       {notes.length > 0 ? (
         <Split sizes={[30, 70]} direction="horizontal" className="split">
           <Sidebar
             notes={notes}
-            currentNote={findCurrentNote()}
+            currentNote={currentNote}
             setCurrentNoteId={setCurrentNoteId}
             newNote={createNewNote}
             handleClick={deleteNote}
           />
           {currentNoteId && notes.length > 0 && (
-            <Editor currentNote={findCurrentNote()} updateNote={updateNote} />
+            <Editor currentNote={currentNote} updateNote={updateNote} />
           )}
         </Split>
       ) : (
