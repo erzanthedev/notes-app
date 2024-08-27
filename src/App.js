@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "./components/Sidebar";
 import Editor from "./components/Editor";
 import Split from "react-split";
-import { addDoc, onSnapshot, doc, deleteDoc } from "firebase/firestore";
+import { addDoc, onSnapshot, doc, deleteDoc, setDoc } from "firebase/firestore";
 import { notesCollection, database } from "./firebase";
 
 export default function App() {
@@ -31,7 +31,7 @@ export default function App() {
     if (!currentNoteId) {
       setCurrentNoteId(notes[0]?.id);
     }
-  }, [notes]);
+  }, [notes, currentNoteId]);
 
   async function createNewNote() {
     const newNote = {
@@ -41,20 +41,9 @@ export default function App() {
     setCurrentNoteId(newNoteRef.id);
   }
 
-  function updateNote(text) {
-    // Find and update notes with new text
-    const updatedNotes = notes.map((note) => {
-      return note.id === currentNoteId ? { ...note, body: text } : note;
-    });
-
-    // Find the modified Notes
-    const modifiedNote = updatedNotes.find((note) => note.id === currentNoteId);
-
-    // Filter out modified notes from updated notes
-    const filteredNotes = updatedNotes.filter(
-      (note) => note.id !== currentNoteId,
-    );
-    setNotes([modifiedNote, ...filteredNotes]);
+  async function updateNote(text) {
+    const docRef = doc(database, "notes", currentNoteId);
+    await setDoc(docRef, { body: text }, { merge: true });
   }
 
   async function deleteNote(noteId) {
