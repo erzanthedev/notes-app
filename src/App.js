@@ -6,7 +6,7 @@ import { nanoid } from "nanoid";
 
 export default function App() {
   const [notes, setNotes] = useState(
-    JSON.parse(localStorage.getItem("notes")) || [], // "[]" is acting as a fallback in the case where localStorage returns undefined
+    () => JSON.parse(localStorage.getItem("notes")) || [], // "[]" is acting as a fallback in the case where localStorage returns undefined
   );
   const [currentNoteId, setCurrentNoteId] = useState(
     (notes[0] && notes[0].id) || "",
